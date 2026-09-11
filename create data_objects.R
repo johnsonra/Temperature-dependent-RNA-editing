@@ -24,11 +24,13 @@ find_recode = function(df, transcript_col, es_col, exome){
 library(readxl)
 library(dplyr)
 
+root <- here::here()
 
-Obimac_CDS = seqinr::read.fasta('/Users/matthewbirk/Documents/WDs/SnapGene/Exomes/Octopus_bimaculoides_CDS.fasta', seqtype = 'DNA', as.string = TRUE) # data from http://octopus.unit.oist.jp/OCTDATA/BASIC/Metazome/Obimaculoides_280_cds.fa.gz
+# downloaded transcriptome reference from https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001194135.2/
+Obimac_CDS = seqinr::read.fasta(file.path(root, 'Data', 'Octopus_bimaculoides_CDS.fasta'), seqtype = 'DNA', as.string = TRUE) # data from http://octopus.unit.oist.jp/OCTDATA/BASIC/Metazome/Obimaculoides_280_cds.fa.gz
 
 
-all_edits = as.data.frame(read_xlsx('/Users/matthewbirk/Documents/WDs/R/Rosenthal/Octo_temp/Data/SGTemprature_CDS_100reads.xlsx'))
+all_edits = as.data.frame(read_xlsx(file.path(root, 'Data', 'SGTemprature_CDS_100reads.xlsx')))
 all_edits$transcript = gsub('(\\w+):\\d+', '\\1', all_edits$Transcript)
 all_edits$es = as.numeric(gsub('\\w+:(\\d+)', '\\1', all_edits$Transcript))
 
@@ -37,8 +39,8 @@ all_edits$`Codon changes` = find_recode(df = all_edits, transcript_col = 'transc
 
 all_recod_edits = subset(all_edits, all_edits$`Codon changes` != 'syn')
 
-cold = as.data.frame(read_xlsx('/Users/matthewbirk/Documents/WDs/R/Rosenthal/Octo_temp/Data/cold_differential_sites_sorted.xlsx'))
-warm = as.data.frame(read_xlsx('/Users/matthewbirk/Documents/WDs/R/Rosenthal/Octo_temp/Data/warm_differential_sites_sorted.xlsx'))
+cold = as.data.frame(read_xlsx(file.path(root, 'Data', 'cold_differential_sites_sorted.xlsx')))
+warm = as.data.frame(read_xlsx(file.path(root, 'Data', 'warm_differential_sites_sorted.xlsx')))
 
 cold$ES = paste(cold$Transcript, cold$`Location in transcript`, sep = '_')
 warm$ES = paste(warm$Transcript, warm$`Location in transcript`, sep = '_')
