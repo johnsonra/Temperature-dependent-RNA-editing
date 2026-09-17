@@ -14,16 +14,18 @@ for SAMPLE in "${all_samples[@]}"; do
   echo "Processing sample: ${SAMPLE}"
 
   # Define input and output paths based on directory structure
-  IN="data/${SAMPLE}.fastq.gz"
+  IN1="data/${SAMPLE}_1.fastq.gz"
+  IN2="data/${SAMPLE}_2.fastq.gz"
 
-  TRIMMED="intermediate/${SAMPLE}_trimmed.fastq.gz"
+  TRIMMED1="intermediate/${SAMPLE}_1_trimmed.fastq.gz"
+  TRIMMED2="intermediate/${SAMPLE}_2_trimmed.fastq.gz"
 
   SALMON_OUT="results/${SAMPLE}_quant"
 
   # Run fastp for QC and trimming
   echo "Running fastp..."
-  fastp -i ${IN} \
-        -o ${TRIMMED} \
+  fastp -i ${IN1} -I ${IN2} \
+        -o ${TRIMMED1} -O ${TRIMMED2}\
         --html results/${SAMPLE}_fastp.html \
         --json results/${SAMPLE}_fastp.json \
         --thread 2
@@ -31,7 +33,7 @@ for SAMPLE in "${all_samples[@]}"; do
   # Run salmon quant on the trimmed reads
   echo "Running salmon quant..."
   salmon quant -i ${INDEX} -l A \
-               -r ${TRIMMED} \
+               -1 ${TRIMMED1} -2 ${TRIMMED2} \
                -p 2 -o ${SALMON_OUT}
 
   echo "Sample ${SAMPLE} complete!"
