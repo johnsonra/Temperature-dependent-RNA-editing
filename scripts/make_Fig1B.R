@@ -1,9 +1,16 @@
-library(ggplot2); library(colorspace); library(dplyr); library(Biostrings)
+require(ggplot2)
+require(colorspace)
+require(dplyr)
+require(Biostrings)
 
 
 theme_set(theme_bw())
 
-load('data_objects.Rdata')
+if(!exists('root'))
+  root <- here::here()
+
+if(!exists('all_temp_recod'))
+  load(file.path(root, 'Data', 'data_objects.Rdata'))
 
 
 
@@ -22,13 +29,14 @@ tmp1 = tmp1 %>%
 	dplyr::arrange(desc(tmp1)) %>%
 	mutate(prop = Freq / sum(tmp1$Freq) * 100) %>%
 	mutate(ypos = cumsum(prop) - 0.5 * prop)
-ggplot(tmp1, aes(x = '', y = prop, fill = type)) +
+
+g1b <- ggplot(tmp1, aes(x = '', y = prop, fill = type)) +
 	geom_bar(stat = 'identity', color = 'white') +
 	geom_label(aes(y = ypos, label = Freq), color = 'white') +
-	coord_polar('y', start = 0) +
+	#coord_polar('y', start = 0) +
 	scale_fill_manual(values = c('#4385FF', 'grey', '#FF654B'), name = NULL) +
 	theme_void() +
 	theme(legend.position = 'none')
 
-ggsave('fig1B.pdf', width = 2.75, height = 2.75)
+#ggsave('fig1B.pdf', g1b, width = 2.75, height = 2.75)
 

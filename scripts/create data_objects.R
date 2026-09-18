@@ -191,4 +191,4 @@ all_temp_recod = rbind(warm_recod, cold_recod)
 # dplyr::arrange(subset(all_temp_recod, Protein_full_name != 'NA' & EL_diff > 0.25), desc(EL_diff))
 #dplyr::arrange(subset(all_temp_recod, Protein_full_name != 'NA' & `Uhuman uniprot ID` %in% conserved$uniprot_name & EL_diff > 0.2), desc(EL_diff))
 
-save.image('/Users/matthewbirk/Documents/WDs/R/Rosenthal/Octo_temp/data_objects.Rdata')
+save.image(file.path(root, 'Data', 'data_objects.Rdata'))
