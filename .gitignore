@@ -1,2 +1,5 @@
 *.fasta
 Data/raw
+data
+intermediate
+ref

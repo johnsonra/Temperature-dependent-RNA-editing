@@ -1,0 +1,63 @@
+---
+title: Temperature dependent RNA editing
+format: gfm
+execute:
+  echo: false
+  warning: false
+---
+
+[![](https://zenodo.org/badge/DOI/10.1016/j.cell.2023.05.004.svg)](https://doi.org/10.1016/j.cell.2023.05.004)
+
+This repository is a fork of the repository published with ["Temperature-dependent RNA editing in octopus extensively recodes the neural proteome" by Birk et al](https://www.sciencedirect.com/science/article/pii/S0092867423005238?via%3Dihub). This fork contains a rewritten README and some additional minor modifications as part of a learning exercise for BIFX 572 at Hood College. Most figures in the paper can be reproduced here.
+
+```{r setup}
+#| include: false
+library(dplyr)
+
+library(Biostrings)
+
+library(ggplot2)
+library(colorspace)
+library(patchwork)
+
+theme_set(theme_bw())
+
+root <- here::here()
+```
+
+## Figures
+
+Figure 1 displays subfigures illustrating the effect of exposure to cold temperatures on RNA editing activity in octopuses. Octopus drawings in panel A were reproduced, with permission, from Roger Hall and not included in this README.
+
+```{r Fig1B}
+#| fig-cap: "Figure 1B: A large proportion of the *O.bimaculoideseditome* exhibits increased editing at colder temperature (blue), but only 789 sites show a significant increase in warm samples (red)"
+
+source(file.path(root, 'scripts', 'make_Fig1B.R'))
+
+g1b
+```
+
+```{r Fig1C}
+#| fig-cap: "Figure 1C: Cold-induced increases in editing levels were both more common and higher in magnitude than warm-induced increases."
+
+source(file.path(root, 'scripts', 'make_Fig1C.R'))
+
+g1c
+```
+
+Figure S1 also goes with these figures.
+
+```{r FigS1}
+source(file.path(root, 'scripts', 'make_figS1.R'))
+
+ggsave(file.path(root, 'scripts', 'bigfigs', 'S1.png'),
+       plot = (gs1[[1]] + gs1[[2]] + gs1[[3]]) /
+              (gs1[[4]] + gs1[[5]] + gs1[[6]]) /
+              (gs1[[7]] + gs1[[8]] + gs1[[9]]) /
+              (gs1[[10]] + gs1[[11]] + gs1[[12]]),
+       width = 9,
+       height = 12,
+       units = 'in')
+```
+
+![Figure S1. Water temperature of aquarium tanks preceding and during long-term temperature incubation experiments, related to Figures 1 and 2 Each vertical line represents 1 day.](scripts/bigfigs/S1.png){fig-width=600}
