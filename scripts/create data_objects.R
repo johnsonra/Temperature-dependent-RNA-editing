@@ -27,7 +27,7 @@ library(dplyr)
 root <- here::here()
 
 # downloaded transcriptome reference from https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_001194135.2/
-Obimac_CDS = seqinr::read.fasta(file.path(root, 'Data', 'Octopus_bimaculoides_CDS.fasta'), seqtype = 'DNA', as.string = TRUE) # data from http://octopus.unit.oist.jp/OCTDATA/BASIC/Metazome/Obimaculoides_280_cds.fa.gz
+Obimac_CDS = seqinr::read.fasta(file.path(root, 'ref', 'Octopus_bimaculoides_2_ASM119413v2_rna.fna'), seqtype = 'DNA', as.string = TRUE)
 
 
 all_edits = as.data.frame(read_xlsx(file.path(root, 'Data', 'SGTemprature_CDS_100reads.xlsx')))
